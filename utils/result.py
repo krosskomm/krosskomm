@@ -1,6 +1,12 @@
 def resultat(status, data):
-    res = {
-        "status" : status,
-        "data": data
-    }
+    if isinstance(data, str):
+        res = {
+            "status": status,
+            "message": data
+        }
+    else:
+        res = {
+            "status": status,
+            "data": data
+        }
     return res

@@ -25,18 +25,28 @@ from announce.views import (
 )
 from core.views import (
     UserViewSet,
-    UserListAPI
+    UserListAPI, GoogleLogin,
+    SignUpView, InfluenceurView,
+    EnterpriseView, InfluenceurViewSet,
+    EnterpriseViewSet
 )
 
 router = routers.DefaultRouter()
 
 # Route POST RETRIEVE DELETE Announce
-router.register(r'announces', AnnounceViewSet, basename='announce')
-router.register(r'users', UserViewSet, basename='user')
+router.register('announces', AnnounceViewSet, basename='announce')
+router.register('users', UserViewSet, basename='user')
+router.register('influenceurs', InfluenceurViewSet, basename='influenceur')
+router.register('entreprises', EnterpriseViewSet, basename='entreprise')
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('api/v1/', include(router.urls)),
+                  path('dj-rest-auth/', include('dj_rest_auth.urls')),
+                  path('dj-rest-auth/google/', GoogleLogin.as_view(), name='google_login'),
+                  path('api/v1/signup/', SignUpView.as_view(), name='signup'),
+                  path('api/v1/profile/influenceur/', InfluenceurView.as_view(), name='influenceur_profile'),
+                  path('api/v1/profile/entreprise/', EnterpriseView.as_view(), name='entreprise_profile'),
                   path('api/v1/announces/list/', AnnounceListAPI.as_view(), name='api_announce_list'),
                   path('api/v1/registered/announces/list/', RegisteredAnnounceListAPI.as_view(),
                        name='api_registered_announce_list'),

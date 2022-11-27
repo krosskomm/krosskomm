@@ -7,7 +7,7 @@ from utils.manager import CustomUserManager
 
 
 class CustomUser(AbstractUser):
-    username = None
+    username = models.CharField(max_length=100, unique=True, null=True)
     email = models.EmailField(unique=True)
     accept_terms = models.BooleanField(default=False)
 
@@ -26,7 +26,7 @@ class Pays(models.Model):
     description = models.TextField(null=True, blank=True)
     created_at = models.DateField(auto_now_add=True)
     active = models.BooleanField(default=True)
-    version = models.CharField(max_length = 10, null=True, blank=True)
+    version = models.CharField(max_length=10, null=True, blank=True)
 
     def __str__(self):
         return self.nom
@@ -60,6 +60,7 @@ class FormeJuridique(models.Model):
 
     def __str__(self):
         return self.nom
+
 
 class Entreprise(Profil):
     entite = models.CharField(max_length=200)
@@ -109,6 +110,7 @@ class Reputation(models.Model):
 
 
 class Influenceur(Profil):
+    nom = models.CharField(max_length=200, null=True, blank=True)
     date_naissance = models.DateField(null=False)
     sexe = models.CharField(max_length=25, null=False)
     type_influenceur = models.ManyToManyField(TypeInfluenceur)

@@ -30,11 +30,10 @@ class AnnounceListAPI(generics.ListAPIView):
 class RegisteredAnnounceListAPI(generics.ListAPIView):
     model = Announce
     serializer_class = AnnounceSerializer
-
     # permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        #user = self.request.user
+        # user = self.request.user
         user = CustomUser.objects.get(pk=2)
         try:
             enterprise = Entreprise.objects.get(user=user)

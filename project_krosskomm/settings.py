@@ -30,11 +30,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'rest_framework',
+    'rest_framework.authtoken',
     'django_filters',
     'core',
     'announce',
     'messagerie',
+    'dj_rest_auth',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +78,8 @@ AUTH_USER_MODEL = 'core.CustomUser'
 
 WSGI_APPLICATION = 'project_krosskomm.wsgi.application'
 
+SITE_ID = 1
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -100,6 +109,31 @@ REST_FRAMEWORK = {
     ]
 }
 
+AUTHENTICATION_BACKENDS = [
+
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+]
+SOCIALACCOUNT_PROVIDERS = {
+   'google': {
+       'app': {
+           'client_id': '296709206393-npqjukao0615prh1f0r06vgbcp1ra70k.apps.googleusercontent.com',
+           'secret': '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'
+
+       },
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
