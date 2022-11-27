@@ -7,7 +7,7 @@ from utils.manager import CustomUserManager
 
 
 class CustomUser(AbstractUser):
-    username = models.CharField(max_length=100, unique=True, null=True)
+    username = models.CharField(max_length=100, unique=True, null=True, blank=True)
     email = models.EmailField(unique=True)
     accept_terms = models.BooleanField(default=False)
 
@@ -33,6 +33,7 @@ class Pays(models.Model):
 
 
 class Profil(models.Model):
+    avatar = models.ImageField(upload_to="profile", null=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     compte = models.CharField(max_length=25, null=False)
     pays = models.ManyToManyField(Pays)

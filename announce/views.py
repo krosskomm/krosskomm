@@ -23,14 +23,14 @@ from utils.result import resultat
 class AnnounceListAPI(generics.ListAPIView):
     model = Announce
     serializer_class = AnnounceSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset = Announce.objects.filter(active=True)
 
 
 class RegisteredAnnounceListAPI(generics.ListAPIView):
     model = Announce
     serializer_class = AnnounceSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         # user = self.request.user
@@ -54,7 +54,7 @@ class AnnounceViewSet(viewsets.ModelViewSet):
     """
     queryset = Announce.objects.filter(active=True)
     serializer_class = AnnounceSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
 
     def create(self, request, *args, **kwargs):

@@ -1,6 +1,50 @@
-from rest_framework import serializers
+from rest_framework import serializers, exceptions
 from .models import *
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+    def validate(self, attrs):
+
+        try:
+            request = self.context["request"]
+        except KeyError:
+            raise exceptions.NotFound('No request')
+
+        email = request.data.get('email')
+        password = request.data.get('password')
+
+        if (email is None) or (password is None):
+            result = {
+                "message": "Nom d'utilisateur et/ou mot de passe requis"
+            }
+            return result
+
+        try:
+            user = CustomUser.objects.get(email=email)
+        except CustomUser.DoesNotExist:
+            result = {
+                "success": False,
+                "message": "Cet utilisateur n'existe pas"
+            }
+            return result
+
+        if not user.check_password(password):
+            result = {
+                "success": False,
+                "message": "Le mot de passe ne correspond pas a cet utilisateur"
+            }
+            return result
+
+        data = super().validate(attrs)
+        refresh = self.get_token(self.user)
+
+        data['refresh'] = str(refresh)
+        data['access'] = str(refresh.access_token)
+        data['user'] = self.user.id
+
+        return data
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

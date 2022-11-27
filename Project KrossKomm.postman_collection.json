@@ -1,0 +1,507 @@
+{
+	"info": {
+		"_postman_id": "f2b8c325-f7a4-426e-9d0a-727282cdde33",
+		"name": "Project KrossKomm",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "LIST ANNOUNCE",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/registered/announces/list/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"registered",
+						"announces",
+						"list",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LIST ANNOUNCE REGISTERED",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/registered/announces/list/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"registered",
+						"announces",
+						"list",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ANNOUNCE RETRIEVE",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1announces/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1announces",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ANNOUNCE SOLICITED",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1announces/2/solicited",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1announces",
+						"2",
+						"solicited"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ANNOUNCE NEW",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"titre\": \"Annonce Postman\",\r\n    \"description\" : \"Premiere annonce de Postman\",\r\n    \"auteur\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/announces/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"announces",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ANNOUNCE UPDATE",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"titre\": \"Annonce Postman update\",\r\n    \"description\" : \"Premiere update annonce de Postman\",\r\n    \"auteur\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/announces/1/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"announces",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ANNOUNCE DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"titre\": \"Annonce Postman update\",\r\n    \"description\" : \"Premiere update annonce de Postman\",\r\n    \"auteur\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/announces/1/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"announces",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USER LIST",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/list/users/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"list",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USER & PROFILE RETRIEVE",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/users/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SIGNUP USER",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"romain_3@gmail.om\",\r\n    \"password\" : \"solaris88MA\",\r\n    \"accept_terms\" : true,\r\n    \"first_name\": \"Romain_3\",\r\n    \"last_name\": \"Thierry_3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/signup/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"signup",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "INFLUENCEUR REGISTER",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nom\": \"Djemba Djemba\",\r\n    \"user\": 2,\r\n    \"compte\" : \"INFLUENCEUR\",\r\n    \"pays\" : [1,2,3],\r\n    \"date_naissance\": \"2022-10-08\",\r\n    \"sexe\": \"M\",\r\n    \"type_influenceur\": [1,2]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/profile/influenceur/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"profile",
+						"influenceur",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "INFLUENCEUR UPDATE",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": 2,\r\n    \"compte\" : \"INFLUENCEUR\",\r\n    \"pays\" : [1,2],\r\n    \"date_naissance\": \"2022-10-08\",\r\n    \"sexe\": \"M\",\r\n    \"type_influenceur\": [2],\r\n    \"reseaux_sociaux\": [{\r\n        \"reseau\": 1,\r\n        \"lien\": \"http://www.facebook.com\"\r\n    }, {\r\n        \"reseau\": 2,\r\n        \"lien\": \"http://www.twitter.com\"\r\n    }],\r\n    \"reputation\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/influenceurs/1/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"influenceurs",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "INFLUENCEUR UPDATE IMAGE",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "avatar",
+							"type": "file",
+							"src": "/D:/my_projects/detail_annonce.PNG"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/influenceurs/1/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"influenceurs",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "INFLUENCEUR RETRIEVE",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": 2,\r\n    \"compte\" : \"INFLUENCEUR\",\r\n    \"pays\" : [1,2],\r\n    \"date_naissance\": \"2022-10-08\",\r\n    \"sexe\": \"M\",\r\n    \"type_influenceur\": [2],\r\n    \"reseaux_sociaux\": [{\r\n        \"reseau\": 1,\r\n        \"lien\": \"http://www.facebook.com\"\r\n    }, {\r\n        \"reseau\": 2,\r\n        \"lien\": \"http://www.twitter.com\"\r\n    }],\r\n    \"reputation\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/influenceurs/1/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"influenceurs",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ENTERPRISE REGISTER",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"compte\" : \"ENTREPRISE\",\r\n    \"user\": 4,\r\n    \"entite\" : \"MORALE\",\r\n    \"pays\" : [1,2],\r\n    \"denomination_sociale\": \"LAMDA\",\r\n    \"forme_juridique\": 2,\r\n    \"numero_entreprise\": \"2376899742\",\r\n    \"secteur_activite\": [2],\r\n    \"adresse_siege\" : \"Bonamoussadi\",\r\n    \"numero\" : \"25656575\",\r\n    \"code_postale\": \"5859 Douala\",\r\n    \"ville\": \"Douala\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/profile/entreprise/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"profile",
+						"entreprise",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ENTERPRISE UPDATE",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"compte\" : \"ENTREPRISE\",\r\n    \"user\": 3,\r\n    \"entite\" : \"MORALE\",\r\n    \"pays\" : [2],\r\n    \"denomination_sociale\": \"TRAST\",\r\n    \"forme_juridique\": 1,\r\n    \"numero_entreprise\": \"2376899743\",\r\n    \"secteur_activite\": [1],\r\n    \"adresse_siege\" : \"Bonamoussadi\",\r\n    \"numero\" : \"25656565\",\r\n    \"code_postale\": \"5859 Douala\",\r\n    \"ville\": \"Douala\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/entreprises/1/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"entreprises",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ENTERPRISE RETRIEVE",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"compte\" : \"ENTREPRISE\",\r\n    \"user\": 2,\r\n    \"entite\" : \"MORALE\",\r\n    \"pays\" : [2],\r\n    \"denomination_sociale\": \"TRAST\",\r\n    \"forme_juridique\": 1,\r\n    \"numero_entreprise\": \"2376899743\",\r\n    \"secteur_activite\": [1],\r\n    \"adresse_siege\" : \"Bonamoussadi\",\r\n    \"numero\" : \"25656565\",\r\n    \"code_postale\": \"5859 Douala\",\r\n    \"ville\": \"Douala\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/entreprises/1/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"entreprises",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

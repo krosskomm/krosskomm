@@ -17,10 +17,15 @@ from rest_framework.views import APIView
 from utils.result import resultat
 from utils.TraitementProfile import TraitementProfile
 from .serializers import *
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
 
 
 # Create your views here.
-class GoogleLogin(SocialLoginView): # if you want to use Implicit Grant, use this
+class GoogleLogin(SocialLoginView):  # if you want to use Implicit Grant, use this
     adapter_class = GoogleOAuth2Adapter
 
 
@@ -46,7 +51,6 @@ class SignUpView(APIView):
 
 
 class InfluenceurView(APIView):
-
     permission_classes = [AllowAny]
 
     @classmethod
@@ -59,6 +63,9 @@ class InfluenceurView(APIView):
                 return Response(result)
             serializer.save(user=user)
             result = resultat(status.HTTP_201_CREATED, serializer.data)
+            # active user
+            user.is_active = True
+            user.save()
             return Response(result)
         else:
             result = resultat(status.HTTP_400_BAD_REQUEST, serializer.errors)
@@ -82,10 +89,13 @@ class EnterpriseView(APIView):
                 return Response(result)
             serializer.save(user=user, forme_juridique=forme)
             result = resultat(status.HTTP_201_CREATED, serializer.data)
+            user.is_active = True
+            user.save()
             return Response(result)
         else:
             print(serializer.errors)
             pass
+
     pass
 
 
@@ -136,7 +146,7 @@ class UserViewSet(viewsets.ModelViewSet):
 class InfluenceurViewSet(viewsets.ModelViewSet):
     queryset = Influenceur.objects.filter()
     serializer_class = InfluenceurProfilSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def retrieve(self, request, pk=None):
         queryset = Influenceur.objects.filter()
@@ -151,14 +161,20 @@ class InfluenceurViewSet(viewsets.ModelViewSet):
         self.perform_update(serializer)
         return Response(serializer.data)
 
-    def partial_update(self, request, *args, **kwargs):
-        pass
+    def partial_update(self, request, pk=None):
+        instance = self.get_object()
+        avatar = request.FILES.get('avatar')
+        if avatar:
+            instance.avatar = avatar
+            instance.save()
+        serializer = self.serializer_class(instance)
+        return Response(serializer.data)
 
 
 class EnterpriseViewSet(viewsets.ModelViewSet):
     queryset = Entreprise.objects.filter()
     serializer_class = EnterpriseProfileSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def retrieve(self, request, pk=None):
         queryset = Entreprise.objects.filter()
@@ -173,5 +189,11 @@ class EnterpriseViewSet(viewsets.ModelViewSet):
         self.perform_update(serializer)
         return Response(serializer.data)
 
-    def partial_update(self, request, *args, **kwargs):
-        pass
+    def partial_update(self, request, pk=None):
+        instance = self.get_object()
+        avatar = request.FILES.get('avatar')
+        if avatar:
+            instance.avatar = avatar
+            instance.save()
+        serializer = self.serializer_class(instance)
+        return Response(serializer.data)

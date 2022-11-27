@@ -28,8 +28,9 @@ from core.views import (
     UserListAPI, GoogleLogin,
     SignUpView, InfluenceurView,
     EnterpriseView, InfluenceurViewSet,
-    EnterpriseViewSet
+    EnterpriseViewSet, MyTokenObtainPairView
 )
+from rest_framework_simplejwt import views as jwt_views
 
 router = routers.DefaultRouter()
 
@@ -43,6 +44,8 @@ urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('api/v1/', include(router.urls)),
                   path('dj-rest-auth/', include('dj_rest_auth.urls')),
+                  path('api/v1/signin/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+                  path('api/v1/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
                   path('dj-rest-auth/google/', GoogleLogin.as_view(), name='google_login'),
                   path('api/v1/signup/', SignUpView.as_view(), name='signup'),
                   path('api/v1/profile/influenceur/', InfluenceurView.as_view(), name='influenceur_profile'),
