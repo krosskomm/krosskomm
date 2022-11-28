@@ -18,6 +18,7 @@ class Announce(models.Model):
     titre = models.CharField(max_length=200)
     description = models.TextField(null=True)
     auteur = models.ForeignKey(Entreprise, on_delete=models.CASCADE)
+    cover = models.ImageField(upload_to="announces", null=True, blank=True)
     profil_recherche = models.OneToOneField(ProfilAnnonce, on_delete=models.DO_NOTHING, null=True, blank=True)
     date_creation = models.DateTimeField(auto_now_add=True)
     Solicitations = models.ManyToManyField(settings.AUTH_USER_MODEL, through="Solicitation",

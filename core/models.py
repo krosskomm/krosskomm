@@ -32,11 +32,23 @@ class Pays(models.Model):
         return self.nom
 
 
+class Badge(models.Model):
+    identity_recto = models.FileField(upload_to='identity')
+    identity_verso = models.FileField(upload_to='identity')
+    aleatoire_number = models.IntegerField(default=0)
+    date_demande = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.date_demande)
+
+
 class Profil(models.Model):
     avatar = models.ImageField(upload_to="profile", null=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     compte = models.CharField(max_length=25, null=False)
     pays = models.ManyToManyField(Pays)
+    badge = models.OneToOneField(Badge, on_delete=models.DO_NOTHING, null=True, blank=True)
+    badge_verification = models.BooleanField(default=False)
 
     class Meta:
         abstract = True
@@ -75,7 +87,7 @@ class Entreprise(Profil):
     ville = models.CharField(max_length=200, null=True)
 
     def __str__(self):
-        return self.denomination_sociale
+        return str(self.pk) +' '+ str(self.denomination_sociale)
 
 
 class TypeInfluenceur(models.Model):
@@ -119,7 +131,7 @@ class Influenceur(Profil):
     reseaux_sociaux = models.ManyToManyField(Reseaux, through="ReseauxSociaux", related_name="reseauxsociaux")
 
     def __str__(self):
-        return str(self.user.email)
+        return str(self.pk) +' '+ str(self.user.email)
 
 
 class ReseauxSociaux(models.Model):

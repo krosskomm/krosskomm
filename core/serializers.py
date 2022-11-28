@@ -1,3 +1,5 @@
+from abc import ABC
+
 from rest_framework import serializers, exceptions
 from .models import *
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -46,6 +48,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         return data
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
@@ -65,6 +68,32 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 
+class PasswordSerializer(serializers.Serializer):
+    model = CustomUser
+
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+
+class EmailSerializer(serializers.Serializer):
+    model = CustomUser
+
+    old_email = serializers.EmailField(required=True)
+    new_email = serializers.EmailField(required=True)
+
+
+class BadgeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Badge
+        fields = '__all__'
+
+    def create(self, validated_data):
+        return Badge.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        pass
+
+
 class PaysSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pays
@@ -78,7 +107,6 @@ class TypeInfluenceurSerializer(serializers.ModelSerializer):
 
 
 class FormeJuridiqueSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = FormeJuridique
         fields = "__all__"
@@ -97,7 +125,6 @@ class ReseauSerializer(serializers.ModelSerializer):
 
 
 class ReseauxSociauxSerializer(serializers.ModelSerializer):
-
     reseau_social = ReseauSerializer(read_only=True, many=False)
 
     class Meta:
@@ -150,7 +177,6 @@ class InfluenceurProfilSerializer(serializers.ModelSerializer):
                 if type_influenceur is not None:
                     influenceur.type_influenceur.add(type_influenceur)
         return influenceur
-        pass
 
     def update(self, instance, validated_data):
         instance.__dict__.update(**validated_data)
@@ -258,9 +284,7 @@ class EnterpriseProfileSerializer(serializers.ModelSerializer):
         return instance
 
 
-
 class UserInfoSerializer(serializers.ModelSerializer):
-
     influenceur = InfluenceurProfilSerializer(many=False)
     entreprise = EnterpriseProfileSerializer(many=False)
 

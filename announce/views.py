@@ -61,6 +61,9 @@ class AnnounceViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        if request.FILES.get('cover') is not None:
+            serializer.cover = request.FILES.get('cover')
+            serializer.save()
         return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):

@@ -28,7 +28,8 @@ from core.views import (
     UserListAPI, GoogleLogin,
     SignUpView, InfluenceurView,
     EnterpriseView, InfluenceurViewSet,
-    EnterpriseViewSet, MyTokenObtainPairView
+    EnterpriseViewSet, MyTokenObtainPairView,
+    ChangePasswordView, ChangeEmailView
 )
 from rest_framework_simplejwt import views as jwt_views
 
@@ -48,6 +49,8 @@ urlpatterns = [
                   path('api/v1/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
                   path('dj-rest-auth/google/', GoogleLogin.as_view(), name='google_login'),
                   path('api/v1/signup/', SignUpView.as_view(), name='signup'),
+                  path('api/v1/change-password/', ChangePasswordView.as_view(), name='change_password'),
+                  path('api/v1/change-email/', ChangeEmailView.as_view(), name='change_email'),
                   path('api/v1/profile/influenceur/', InfluenceurView.as_view(), name='influenceur_profile'),
                   path('api/v1/profile/entreprise/', EnterpriseView.as_view(), name='entreprise_profile'),
                   path('api/v1/announces/list/', AnnounceListAPI.as_view(), name='api_announce_list'),

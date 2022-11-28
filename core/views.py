@@ -6,6 +6,7 @@ from rest_framework import (
     viewsets,
     generics
 )
+from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import (
     AllowAny,
@@ -16,6 +17,7 @@ from rest_framework.views import APIView
 
 from utils.result import resultat
 from utils.TraitementProfile import TraitementProfile
+from utils.badge import badge_verification_save
 from .serializers import *
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -47,6 +49,69 @@ class SignUpView(APIView):
         else:
             result = resultat(status.HTTP_400_BAD_REQUEST,
                               userSerializer.errors)
+            return Response(result)
+
+
+class ChangePasswordView(generics.UpdateAPIView):
+    """
+    An endpoint for changing password.
+    """
+    serializer_class = PasswordSerializer
+    model = CustomUser
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            # Check old password
+            if not self.object.check_password(serializer.data.get("old_password")):
+                result = resultat(status.HTTP_400_BAD_REQUEST, "Vous avez rentré le mauvais mot de passe.")
+                return Response(result)
+            # set_password also hashes the password that the user will get
+            self.object.set_password(serializer.data.get("new_password"))
+            self.object.save()
+            result = resultat(status.HTTP_200_OK, 'Mot de passe modifié avec succès')
+            return Response(result)
+        else:
+            result = resultat(status.HTTP_400_BAD_REQUEST, serializer.errors)
+            return Response(result)
+
+
+class ChangeEmailView(generics.UpdateAPIView):
+    """
+    An endpoint for changing password.
+    """
+    serializer_class = EmailSerializer
+    model = CustomUser
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            # Check old email
+            if str(self.object.email) == str(serializer.data.get("old_email")):
+                new_email = str(serializer.data.get("new_email"))
+                if CustomUser.objects.filter(email=str(new_email)).exists():
+                    result = resultat(status.HTTP_409_CONFLICT, "Cette adresse mail est déja prise")
+                    return Response(result)
+                self.object.email = serializer.data.get("new_email")
+                self.object.save()
+            result = resultat(status.HTTP_200_OK, 'Votre email a été modifié avec succès')
+            return Response(result)
+        else:
+            result = resultat(status.HTTP_400_BAD_REQUEST, serializer.errors)
             return Response(result)
 
 
@@ -142,6 +207,21 @@ class UserViewSet(viewsets.ModelViewSet):
         instance.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    @action(methods=['POST'], detail=True, name='badge_verification')
+    def badge_verification(self, request, *args, **kwargs):
+        result = None
+        user = self.get_object()
+        serializer = UserInfoSerializer(user)
+        if serializer.data['entreprise'] is not None:
+            profil = Entreprise.objects.get(user=user)
+            result = badge_verification_save(profil, request)
+        if serializer.data['influenceur'] is not None:
+            profil = Influenceur.objects.get(user=user)
+            result = badge_verification_save(profil, request)
+        return Response(result)
+
+
+
 
 class InfluenceurViewSet(viewsets.ModelViewSet):
     queryset = Influenceur.objects.filter()
@@ -189,7 +269,7 @@ class EnterpriseViewSet(viewsets.ModelViewSet):
         self.perform_update(serializer)
         return Response(serializer.data)
 
-    def partial_update(self, request, pk=None):
+    def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()
         avatar = request.FILES.get('avatar')
         if avatar:
