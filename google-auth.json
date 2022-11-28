@@ -1,0 +1,18 @@
+{
+   "web":{
+      "client_id":"296709206393-npqjukao0615prh1f0r06vgbcp1ra70k.apps.googleusercontent.com",
+      "project_id":"krosskomm-369502",
+      "auth_uri":"https://accounts.google.com/o/oauth2/auth",
+      "token_uri":"https://oauth2.googleapis.com/token",
+      "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
+      "client_secret":"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",
+      "redirect_uris":[
+         "http://127.0.0.1:8000/accounts/google/login/callback/",
+         "http://localhost:8000/accounts/google/login/callback/"
+      ],
+      "javascript_origins":[
+         "http://127.0.0.1:8000",
+         "http://localhost:8000"
+      ]
+   }
+}
