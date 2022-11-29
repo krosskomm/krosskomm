@@ -18,6 +18,18 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+ALLOWED_HOSTS = ['*']
+
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = (
+    'https://127.0.0.1:8000',
+    'https://127.0.0.1:8000',
+    'https://127.0.0.1:3000',
+    'http://localhost:3000',
+    'https://krosskomm.vercel.app'
+)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -38,6 +50,7 @@ INSTALLED_APPS = [
     'announce',
     'messagerie',
     'dj_rest_auth',
+    'corsheaders',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -45,6 +58,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -136,6 +150,13 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
+
+DATABASES = {
+          'default': {
+              'ENGINE': 'django.db.backends.sqlite3',
+             'NAME': 'db.sqlite3',
+          }
+       }
 
 LANGUAGE_CODE = 'en-us'
 
