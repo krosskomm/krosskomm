@@ -97,6 +97,128 @@
 			"response": []
 		},
 		{
+			"name": "SIGN IN",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"romain_2@gmail.com\",\r\n    \"password\" : \"solaris88MA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/signin/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"signin",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CHANGE PASSWORD",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY5NTU4MzIzLCJqdGkiOiIxNmJjYjMzNTlhNzQ0ZDYxYjJhMWYwOWM3OWUwY2QxZiIsInVzZXJfaWQiOjJ9.gkJq_6Y7VVRjntzqrM1PEGgeE1j15foQs8NA5gUwX64",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"old_password\": \"romainsame\",\r\n    \"new_password\" : \"solaris88MA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/change-password/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"change-password",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CHANGE EMAIL",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY5NTU4MzIzLCJqdGkiOiIxNmJjYjMzNTlhNzQ0ZDYxYjJhMWYwOWM3OWUwY2QxZiIsInVzZXJfaWQiOjJ9.gkJq_6Y7VVRjntzqrM1PEGgeE1j15foQs8NA5gUwX64",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"old_email\": \"romain_10@gmail.com\",\r\n    \"new_email\" : \"romain_1@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/change-email/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"change-email",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "ANNOUNCE NEW",
 			"request": {
 				"method": "POST",
@@ -104,6 +226,68 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"titre\": \"Annonce Postman\",\r\n    \"description\" : \"Premiere annonce de Postman\",\r\n    \"auteur\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/announces/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"announces",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ANNOUNCE NEW Cover",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY5NTI4NzA1LCJqdGkiOiI3NjkxMTg4MDk4ZjE0MDUzOTUxYzgwZTU3OGIzMDJmNiIsInVzZXJfaWQiOjJ9.N23Ww88yUhtqIr109l9IPqlg3SCF1aPDRKzQrAP3qH0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "titre",
+							"value": "Titre avec image",
+							"type": "default"
+						},
+						{
+							"key": "description",
+							"value": "Description du titre avec image",
+							"type": "default"
+						},
+						{
+							"key": "auteur",
+							"value": "2",
+							"type": "default"
+						},
+						{
+							"key": "cover",
+							"type": "file",
+							"src": "/D:/my_projects/detail_annonce.PNG"
+						}
+					],
 					"options": {
 						"raw": {
 							"language": "json"
@@ -194,6 +378,16 @@
 		{
 			"name": "USER LIST",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY5NTI0MTM5LCJqdGkiOiIxYjViYWJjNWM0NTQ0MDcxYWY4MTRkYTJhM2JjMDYyMyIsInVzZXJfaWQiOjJ9.UcjIq9V97naQbod7uI64EzYybr0MxohQ-TPdHMPfWPI",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -497,6 +691,65 @@
 						"v1",
 						"entreprises",
 						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BADGE VERIFICATION",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY5NTcxOTUwLCJqdGkiOiIwZDliZjE2Njc3MjU0NTkzYThhZWM4OTQ0YTlkZWE0ZSIsInVzZXJfaWQiOjN9.jWPP90MTAplwtcNK7o8lT_D14cQ5FVvLm74GispF5WI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "identity_recto",
+							"type": "file",
+							"src": "/D:/my_projects/commande krosskom.txt"
+						},
+						{
+							"key": "identity_verso",
+							"type": "file",
+							"src": "/D:/my_projects/Edition_Profil.PNG"
+						},
+						{
+							"key": "aleatoire_number",
+							"value": "12",
+							"type": "default"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/users/3/badge_verification/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"3",
+						"badge_verification",
 						""
 					]
 				}
