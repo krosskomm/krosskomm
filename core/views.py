@@ -171,6 +171,114 @@ class UserListAPI(generics.ListAPIView):
     queryset = CustomUser.objects.filter(is_active=True, is_staff=False)
 
 
+class PaysViewSet(viewsets.ModelViewSet):
+    """
+    Example empty viewset demonstrating the standard
+    actions that will be handled by a router class.
+
+    If you're using format suffixes, make sure to also include
+    the `format=None` keyword argument for each action.
+    """
+    queryset = Pays.objects.filter(active=True)
+    serializer_class = PaysSerializer
+    permission_classes = [AllowAny]
+
+    def list(self, request, project_pk=None):
+        queryset = self.queryset.filter()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ReputationViewSet(viewsets.ModelViewSet):
+    """
+    Example empty viewset demonstrating the standard
+    actions that will be handled by a router class.
+
+    If you're using format suffixes, make sure to also include
+    the `format=None` keyword argument for each action.
+    """
+    queryset = Reputation.objects.filter(active=True)
+    serializer_class = ReputationSerializer
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request, project_pk=None):
+        queryset = self.queryset.filter()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+
+class SecteurViewSet(viewsets.ModelViewSet):
+    """
+    Example empty viewset demonstrating the standard
+    actions that will be handled by a router class.
+
+    If you're using format suffixes, make sure to also include
+    the `format=None` keyword argument for each action.
+    """
+    queryset = SecteurActivite.objects.filter(active=True)
+    serializer_class = SecteurSerializer
+    permission_classes = [AllowAny]
+
+    def list(self, request, project_pk=None):
+        queryset = self.queryset.filter()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+
+class FormeJuridiqueViewSet(viewsets.ModelViewSet):
+    """
+    Example empty viewset demonstrating the standard
+    actions that will be handled by a router class.
+
+    If you're using format suffixes, make sure to also include
+    the `format=None` keyword argument for each action.
+    """
+    queryset = FormeJuridique.objects.filter(active=True)
+    serializer_class = FormeJuridiqueSerializer
+    permission_classes = [AllowAny]
+
+    def list(self, request, project_pk=None):
+        queryset = self.queryset.filter()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+
+class TypeInfleunceurViewSet(viewsets.ModelViewSet):
+    """
+    Example empty viewset demonstrating the standard
+    actions that will be handled by a router class.
+
+    If you're using format suffixes, make sure to also include
+    the `format=None` keyword argument for each action.
+    """
+    queryset = TypeInfluenceur.objects.filter(active=True)
+    serializer_class = TypeInfluenceurSerializer
+    permission_classes = [AllowAny]
+
+    def list(self, request, project_pk=None):
+        queryset = self.queryset.filter()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+
+class ReseauViewSet(viewsets.ModelViewSet):
+    """
+    Example empty viewset demonstrating the standard
+    actions that will be handled by a router class.
+
+    If you're using format suffixes, make sure to also include
+    the `format=None` keyword argument for each action.
+    """
+    queryset = Reseaux.objects.filter(active=True)
+    serializer_class = ReseauSerializer
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request, project_pk=None):
+        queryset = self.queryset.filter()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     Example empty viewset demonstrating the standard

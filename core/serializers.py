@@ -121,7 +121,7 @@ class SecteurSerializer(serializers.ModelSerializer):
 class ReseauSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reseaux
-        fields = ['designation', 'classicon']
+        fields = ['id', 'designation', 'classicon']
 
 
 class ReseauxSociauxSerializer(serializers.ModelSerializer):
