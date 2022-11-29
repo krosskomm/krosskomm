@@ -163,7 +163,7 @@ class InfluenceurProfilSerializer(serializers.ModelSerializer):
         if len(countries) > 0:
             for pays_id in countries:
                 try:
-                    pays = Pays.objects.get(pk=int(pays_id))
+                    pays = Pays.objects.get(code=str(pays_id))
                 except Pays.DoesNotExist:
                     pays = None
                 if pays is not None:
@@ -189,7 +189,7 @@ class InfluenceurProfilSerializer(serializers.ModelSerializer):
             instance.pays.clear()
             for pays_id in countries:
                 try:
-                    pays = Pays.objects.get(pk=int(pays_id))
+                    pays = Pays.objects.get(code=str(pays_id))
                 except Pays.DoesNotExist:
                     pays = None
                 if pays is not None:
@@ -243,7 +243,7 @@ class EnterpriseProfileSerializer(serializers.ModelSerializer):
         if len(countries) > 0:
             for pays_id in countries:
                 try:
-                    pays = Pays.objects.get(pk=int(pays_id))
+                    pays = Pays.objects.get(code=int(pays_id))
                 except Pays.DoesNotExist:
                     pays = None
                 if pays is not None:
@@ -267,7 +267,7 @@ class EnterpriseProfileSerializer(serializers.ModelSerializer):
             instance.pays.clear()
             for pays_id in countries:
                 try:
-                    pays = Pays.objects.get(pk=int(pays_id))
+                    pays = Pays.objects.get(code=str(pays_id))
                 except Pays.DoesNotExist:
                     pays = None
                 if pays is not None:

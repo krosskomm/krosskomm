@@ -23,6 +23,7 @@ class CustomUser(AbstractUser):
 
 class Pays(models.Model):
     nom = models.CharField(max_length=200, unique=True)
+    code = models.CharField(max_length=4, unique=True, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     created_at = models.DateField(auto_now_add=True)
     active = models.BooleanField(default=True)
