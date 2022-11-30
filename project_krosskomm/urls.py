@@ -61,7 +61,7 @@ urlpatterns = [
                   path('api/v1/change-email/', ChangeEmailView.as_view(), name='change_email'),
                   path('api/v1/profile/influenceur/', InfluenceurView.as_view(), name='influenceur_profile'),
                   path('api/v1/profile/entreprise/', EnterpriseView.as_view(), name='entreprise_profile'),
-                  path('api/v1/announces/list/', AnnounceListAPI.as_view(), name='api_announce_list'),
+                  path('api/v1/all/announces/list/', AnnounceListAPI.as_view(), name='api_announce_list'),
                   path('api/v1/registered/announces/list/', RegisteredAnnounceListAPI.as_view(),
                        name='api_registered_announce_list'),
                   path('api/v1/list/users/', UserListAPI.as_view(), name='api_v1_user_list'),
