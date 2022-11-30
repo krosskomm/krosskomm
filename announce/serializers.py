@@ -1,10 +1,20 @@
 from .models import *
 from django.db import transaction
 from rest_framework import serializers
-from core.serializers import UserInfoSerializer
+from core.serializers import UserInfoSerializer, UserSerializer
+from core.models import Entreprise
+
+
+class AuteurSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True, many=False)
+
+    class Meta:
+        model = Entreprise
+        exclude = ['pays', 'secteur_activite', 'forme_juridique', 'badge', 'compte']
 
 
 class AnnounceSerializer(serializers.ModelSerializer):
+    auteur = AuteurSerializer(read_only=True, many=False)
 
     class Meta:
         model = Announce
