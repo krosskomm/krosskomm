@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework import generics
 from django.shortcuts import get_object_or_404
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.decorators import action
@@ -56,6 +56,11 @@ class AnnounceViewSet(viewsets.ModelViewSet):
     serializer_class = AnnounceSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.queryset.filter()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)

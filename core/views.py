@@ -329,8 +329,6 @@ class UserViewSet(viewsets.ModelViewSet):
         return Response(result)
 
 
-
-
 class InfluenceurViewSet(viewsets.ModelViewSet):
     queryset = Influenceur.objects.filter()
     serializer_class = InfluenceurProfilSerializer

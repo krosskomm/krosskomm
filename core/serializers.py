@@ -1,5 +1,3 @@
-from abc import ABC
-
 from rest_framework import serializers, exceptions
 from .models import *
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -291,3 +289,12 @@ class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['email', 'first_name', 'last_name', 'is_active', 'influenceur', 'entreprise']
+
+
+class InfluenceurSerializer(serializers.ModelSerializer):
+
+    user = UserSerializer(read_only=True, many=False)
+
+    class Meta:
+        model = Influenceur
+        fields = '__all__'

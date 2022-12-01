@@ -33,11 +33,11 @@ from core.views import (
     SecteurViewSet, FormeJuridiqueViewSet, TypeInfleunceurViewSet,
     ReseauViewSet, ReputationViewSet
 )
+from contrat.views import ContratViewSet
 from rest_framework_simplejwt import views as jwt_views
 
 router = routers.DefaultRouter()
 
-# Route POST RETRIEVE DELETE Announce
 router.register('pays', PaysViewSet, basename='pays')
 router.register('secteurs', SecteurViewSet, basename='secteur')
 router.register('forme-juridiques', FormeJuridiqueViewSet, basename='forme-juridique')
@@ -48,6 +48,7 @@ router.register('announces', AnnounceViewSet, basename='announce')
 router.register('users', UserViewSet, basename='user')
 router.register('influenceurs', InfluenceurViewSet, basename='influenceur')
 router.register('entreprises', EnterpriseViewSet, basename='entreprise')
+router.register('contracts', ContratViewSet, basename='contrat')
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
