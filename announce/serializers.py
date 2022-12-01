@@ -48,7 +48,8 @@ class AnnounceDetailSerializer(serializers.ModelSerializer):
         model = Announce
         fields = '__all__'
 
-    def get_solicitations(self, announce):
+    @staticmethod
+    def get_solicitations(announce):
         qs = Solicitation.objects.filter(announce=announce)
         serializer = SolicitationSerializer(instance=qs, many=True)
         return serializer.data

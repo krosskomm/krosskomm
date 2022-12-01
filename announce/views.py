@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework import generics
 from django.shortcuts import get_object_or_404
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.decorators import action
@@ -57,14 +57,27 @@ class AnnounceViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     pagination_class = PageNumberPagination
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        if request.FILES.get('cover') is not None:
-            serializer.cover = request.FILES.get('cover')
-            serializer.save()
+    def list(self, request, *args, **kwargs):
+        queryset = self.queryset.filter()
+        serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        id_entreprise = request.POST.get('auteur', None)
+        print("")
+        if id_entreprise is not None:
+            try:
+                entreprise = Entreprise.objects.get(pk=int(id_entreprise))
+            except ObjectDoesNotExist:
+                entreprise = None
+            print(entreprise)
+            serializer = self.serializer_class(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save(auteur=entreprise)
+            if request.FILES.get('cover') is not None:
+                serializer.cover = request.FILES.get('cover')
+                serializer.save()
+            return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()

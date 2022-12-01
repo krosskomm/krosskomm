@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'core',
     'announce',
     'messagerie',
+    'contrat',
     'dj_rest_auth',
     'corsheaders',
     'allauth',
@@ -152,11 +153,15 @@ SOCIALACCOUNT_PROVIDERS = {
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 DATABASES = {
-          'default': {
-              'ENGINE': 'django.db.backends.sqlite3',
-             'NAME': 'db.sqlite3',
-          }
-       }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'romain',
+        'USER':'postgres',
+        'PASSWORD':'solaris88MA',
+        'HOST':'127.0.0.1',
+        'PORT':'5432',
+    }
+}
 
 LANGUAGE_CODE = 'en-us'
 
