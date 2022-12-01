@@ -63,13 +63,21 @@ class AnnounceViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        if request.FILES.get('cover') is not None:
-            serializer.cover = request.FILES.get('cover')
-            serializer.save()
-        return Response(serializer.data)
+        id_entreprise = request.POST.get('auteur', None)
+        print("")
+        if id_entreprise is not None:
+            try:
+                entreprise = Entreprise.objects.get(pk=int(id_entreprise))
+            except ObjectDoesNotExist:
+                entreprise = None
+            print(entreprise)
+            serializer = self.serializer_class(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save(auteur=entreprise)
+            if request.FILES.get('cover') is not None:
+                serializer.cover = request.FILES.get('cover')
+                serializer.save()
+            return Response(serializer.data)
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
