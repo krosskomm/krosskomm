@@ -42,6 +42,7 @@ class SolicitationSerializer(serializers.ModelSerializer):
 
 class AnnounceDetailSerializer(serializers.ModelSerializer):
 
+    auteur = AuteurSerializer(read_only=True, many=False)
     Solicitations = serializers.SerializerMethodField('get_solicitations')
 
     class Meta:
