@@ -1,0 +1,1 @@
+web: gunicorn project_krosskomm.wsgi --log-file -

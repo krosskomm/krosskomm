@@ -152,17 +152,6 @@ SOCIALACCOUNT_PROVIDERS = {
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'romain',
-        'USER':'postgres',
-        'PASSWORD':'solaris88MA',
-        'HOST':'127.0.0.1',
-        'PORT':'5432',
-    }
-}
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
