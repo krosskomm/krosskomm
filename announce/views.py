@@ -101,9 +101,13 @@ class AnnounceViewSet(viewsets.ModelViewSet):
     def solicited(self, request, pk=None):
         announce = self.get_object()
         user = request.user
+        print(announce)
+        print(user)
         Solicitation.objects.create(announce=announce, user=user)
+        print(announce)
+        print(user)
         result = {
             "status": status.HTTP_200_OK,
             "message" : "Votre sollicitation a été enregistré avec succès"
         }
-        return result
+        return Response(result)
