@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework import generics
 from django.shortcuts import get_object_or_404
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.pagination import PageNumberPagination
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.decorators import action
@@ -111,17 +111,51 @@ class AnnounceViewSet(viewsets.ModelViewSet):
         instance.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @action(detail=True, methods=['get'], name='solicit announce')
+    @action(detail=True, methods=['POST'], name='solicit announce')
     def solicited(self, request, pk=None):
+        try:
+            users = self.request.data['users']
+        except:
+            users = []
+
         announce = self.get_object()
-        user = request.user
-        print(announce)
-        print(user)
-        Solicitation.objects.create(announce=announce, user=user)
-        print(announce)
-        print(user)
-        result = {
-            "status": status.HTTP_200_OK,
-            "message" : "Votre sollicitation a été enregistré avec succès"
-        }
-        return Response(result)
+
+        if len(users) > 0:
+            for user_id in users:
+                try:
+                    print('first')
+                    user = CustomUser.objects.get(pk=int(user_id))
+                except ObjectDoesNotExist:
+                    print('error')
+                    user = None
+                if user is not None:
+                    try:
+                        solicitation = Solicitation.objects.get(announce=announce, user=user)
+                    except ObjectDoesNotExist:
+                        solicitation = None
+                    print(solicitation)
+                    if solicitation is None:
+                        Solicitation.objects.create(announce=announce, user=user)
+            result = {
+                "Status": status.HTTP_200_OK,
+                "message": "Solicitations enregistrées avec succès"
+            }
+            return Response(result)
+        else:
+            user = request.user
+            try:
+                solicitation = Solicitation.objects.get(announce=announce, user=user)
+            except ObjectDoesNotExist:
+                solicitation = None
+            if solicitation is not None:
+                result = {
+                    "status": status.HTTP_200_OK,
+                    "message": "Vous avez déja solliciter cette annonce"
+                }
+                return Response(result)
+            Solicitation.objects.create(announce=announce, user=user)
+            result = {
+                "status": status.HTTP_200_OK,
+                "message": "solicitation enregistrée avec succès"
+            }
+            return Response(result)
