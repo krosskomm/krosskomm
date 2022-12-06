@@ -24,7 +24,13 @@ class AnnounceListAPI(generics.ListAPIView):
     model = Announce
     serializer_class = AnnounceSerializer
     permission_classes = [IsAuthenticated]
-    queryset = Announce.objects.filter(active=True)
+
+    def get_queryset(self):
+        queryset = Announce.objects.filter(active=True)
+        title = self.request.query_params.get('title', None)
+        if title:
+            queryset = Announce.objects.filter(titre__icontains=title, active=True)
+        return queryset
 
 
 class RegisteredAnnounceListAPI(generics.ListAPIView):
@@ -39,8 +45,16 @@ class RegisteredAnnounceListAPI(generics.ListAPIView):
         except ObjectDoesNotExist:
             enterprise = None
         if enterprise is None:
-            pass
-        return Announce.objects.filter(auteur=enterprise, active=True)
+            result = {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": "Cette entreprise n'existe pas"
+            }
+            return Response(result)
+        queryset = Announce.objects.filter(auteur=enterprise, active=True)
+        title = self.request.query_params.get('title', None)
+        if title:
+            queryset = Announce.objects.filter(auteur=enterprise, titre__icontains=title, active=True)
+        return queryset
 
 
 class AnnounceViewSet(viewsets.ModelViewSet):
