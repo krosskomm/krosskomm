@@ -193,8 +193,7 @@ DATABASES = {
     "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
 }
 
-if not DEBUG:
-    CSRF_TRUSTED_ORIGINS = ['https://web-production-3191.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://web-production-3191.up.railway.app']
 
 """DATABASES = {
     'default': {
