@@ -13,10 +13,16 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 from .env import *
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'django-insecure--=bv_qdf&8__(y1eiv*!mgj0f__sz%ezkfx7%-cxxy$rkr@&$0'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -27,7 +33,8 @@ CORS_ORIGIN_WHITELIST = (
     'https://127.0.0.1:8000',
     'https://127.0.0.1:3000',
     'http://localhost:3000',
-    'https://krosskomm.vercel.app'
+    'https://krosskomm.vercel.app',
+    'https://web-production-3191.up.railway.app'
 )
 
 # Quick-start development settings - unsuitable for production
@@ -67,6 +74,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'project_krosskomm.urls'
@@ -178,3 +186,20 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DATABASE_URL = "postgresql://postgres:dhHbKfK6lOQqB2V5Jyfh@containers-us-west-27.railway.app:8027/railway"
+
+DATABASES = {
+    "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
+}
+
+"""DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'krosskomm',
+        'USER': 'postgres',
+        'PASSWORD': 'solaris88MA',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}"""
