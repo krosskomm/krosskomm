@@ -33,8 +33,7 @@ class RegisteredAnnounceListAPI(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # user = self.request.user
-        user = CustomUser.objects.get(pk=2)
+        user = self.request.user
         try:
             enterprise = Entreprise.objects.get(user=user)
         except ObjectDoesNotExist:
