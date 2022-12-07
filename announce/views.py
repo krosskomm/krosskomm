@@ -111,51 +111,26 @@ class AnnounceViewSet(viewsets.ModelViewSet):
         instance.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @action(detail=True, methods=['POST'], name='solicit announce')
+    @action(detail=True, methods=['GET'], name='solicit announce')
     def solicited(self, request, pk=None):
-        try:
-            users = self.request.data['users']
-        except:
-            users = []
-
         announce = self.get_object()
+        user = request.user
+        try:
+            solicitation = Solicitation.objects.get(announce=announce, user=user)
+        except ObjectDoesNotExist:
+            solicitation = None
+        if solicitation is not None:
+            result = {
+                "status": status.HTTP_409_CONFLICT,
+                "message": "Vous avez déja solliciter cette annonce"
+            }
+            return Response(result)
+        Solicitation.objects.create(announce=announce, user=user)
+        result = {
+            "status": status.HTTP_200_OK,
+            "message": "solicitation enregistrée avec succès"
+        }
+        return Response(result)
 
-        if len(users) > 0:
-            for user_id in users:
-                try:
-                    print('first')
-                    user = CustomUser.objects.get(pk=int(user_id))
-                except ObjectDoesNotExist:
-                    print('error')
-                    user = None
-                if user is not None:
-                    try:
-                        solicitation = Solicitation.objects.get(announce=announce, user=user)
-                    except ObjectDoesNotExist:
-                        solicitation = None
-                    print(solicitation)
-                    if solicitation is None:
-                        Solicitation.objects.create(announce=announce, user=user)
-            result = {
-                "Status": status.HTTP_200_OK,
-                "message": "Solicitations enregistrées avec succès"
-            }
-            return Response(result)
-        else:
-            user = request.user
-            try:
-                solicitation = Solicitation.objects.get(announce=announce, user=user)
-            except ObjectDoesNotExist:
-                solicitation = None
-            if solicitation is not None:
-                result = {
-                    "status": status.HTTP_200_OK,
-                    "message": "Vous avez déja solliciter cette annonce"
-                }
-                return Response(result)
-            Solicitation.objects.create(announce=announce, user=user)
-            result = {
-                "status": status.HTTP_200_OK,
-                "message": "solicitation enregistrée avec succès"
-            }
-            return Response(result)
+
+
