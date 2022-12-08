@@ -1,8 +1,10 @@
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
+from announce.models import Announce
 from .models import (
     Contrat
 )
@@ -30,9 +32,20 @@ class ContratViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
+        announce = request.data.get('announce')
+        try:
+            annonce = Announce.objects.get(pk=int(announce))
+        except ObjectDoesNotExist:
+            annonce = None
+        if annonce is None:
+            result = {
+                "status": status.HTTP_204_NO_CONTENT,
+                "message": "Veuillez selectionner une annonce pour votre contrat"
+            }
+            return Response(result)
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer.save(announce=annonce)
         if request.FILES.get('document') is not None:
             serializer.document = request.FILES.get('document')
             serializer.save()

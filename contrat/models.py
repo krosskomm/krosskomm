@@ -18,4 +18,4 @@ class Contrat(models.Model):
     version = models.CharField(max_length=10, null=True, blank=True)
 
     def __str__(self):
-        return str(self.pk) +' '+ str(self.announce.titre)
+        return str(self.pk) + ' ' + str(self.announce.titre)

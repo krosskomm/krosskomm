@@ -1,5 +1,6 @@
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 from rest_framework import (
     status,
@@ -356,6 +357,39 @@ class InfluenceurViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(instance)
         return Response(serializer.data)
 
+    @action(detail=True, methods=['POST'], name='solicited entreprise')
+    def solicited_entreprise(self, request, pk=None):
+        influenceur = self.get_object()
+        id_entreprise = request.data['entreprise']
+        try:
+            entreprise = Entreprise.objects.get(pk=int(id_entreprise))
+        except ObjectDoesNotExist:
+            result = {
+                "status": status.HTTP_409_CONFLICT,
+                "message": "Cette entreprise n'existe pas"
+            }
+            return Response(result)
+        if SimpleSolicitation.objects.filter(entreprise=entreprise, influenceur=influenceur).exists():
+            result = {
+                "status": status.HTTP_409_CONFLICT,
+                "message": "Vous avez déja sollicité cet entreprise"
+            }
+            return Response(result)
+        SimpleSolicitation.objects.create(entreprise=entreprise, influenceur=influenceur,
+                                          type_sollicitation="INFLUENCEUR")
+        result = {
+            "status": status.HTTP_200_OK,
+            "message": "Votre solicitation a été envoyée avec succès"
+        }
+        return Response(result)
+
+    @action(detail=True, methods=['GET'], name='list entreprise solicited')
+    def list_solicitation_entreprises(self, request, pk=None):
+        influenceur = self.get_object()
+        entreprises = influenceur.sollicitations.filter(simplesolicitation__type_sollicitation="INFLUENCEUR")
+        serializer = EntrepriseSerializer(entreprises, many=True)
+        return Response(serializer.data)
+
 
 class EnterpriseViewSet(viewsets.ModelViewSet):
     queryset = Entreprise.objects.filter()
@@ -382,4 +416,38 @@ class EnterpriseViewSet(viewsets.ModelViewSet):
             instance.avatar = avatar
             instance.save()
         serializer = self.serializer_class(instance)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['POST'], name='solicit influenceur')
+    def solicited_influenceur(self, request, pk=None):
+        entreprise = self.get_object()
+        id_influenceur = request.data['influenceur']
+        try:
+            influenceur = Influenceur.objects.get(pk=int(id_influenceur))
+        except ObjectDoesNotExist:
+            result = {
+                "status": status.HTTP_409_CONFLICT,
+                "message": "Cet influenceur n'existe pas"
+            }
+            return Response(result)
+        if SimpleSolicitation.objects.filter(entreprise=entreprise, influenceur=influenceur).exists():
+            result = {
+                "status": status.HTTP_409_CONFLICT,
+                "message": "Vous avez déja sollicité cet influenceur"
+            }
+            return Response(result)
+        SimpleSolicitation.objects.create(entreprise=entreprise, influenceur=influenceur,
+                                          type_sollicitation="ENTREPRISE")
+        result = {
+            "status": status.HTTP_200_OK,
+            "message": "Votre solicitation a été envoyée avec succès"
+        }
+        return Response(result)
+
+    @action(detail=True, methods=['GET'], name='list influenceur solicited')
+    def list_solicitation_influenceurs(self, request, pk=None):
+        entreprise = self.get_object()
+
+        influenceurs = entreprise.sollicitations.filter(simplesolicitation__type_sollicitation="ENTREPRISE")
+        serializer = InfluenceurSerializer(influenceurs, many=True)
         return Response(serializer.data)

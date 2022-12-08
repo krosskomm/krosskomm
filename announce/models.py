@@ -1,10 +1,11 @@
 from django.db import models
 from django.conf import settings
 from core.models import (
-    Entreprise,
+    Entreprise, Influenceur,
     Pays, TypeInfluenceur,
     Reseaux, Reputation
     )
+
 
 # Create your models here.
 class ProfilAnnonce(models.Model):
@@ -21,7 +22,7 @@ class Announce(models.Model):
     cover = models.ImageField(upload_to="announces", null=True, blank=True)
     profil_recherche = models.OneToOneField(ProfilAnnonce, on_delete=models.DO_NOTHING, null=True, blank=True)
     date_creation = models.DateTimeField(auto_now_add=True)
-    Solicitations = models.ManyToManyField(settings.AUTH_USER_MODEL, through="Solicitation",
+    Solicitations = models.ManyToManyField(Influenceur, through="Solicitation",
                                            related_name="solicitations")
     active = models.BooleanField(default=True)
     version = models.CharField(max_length=10, null=True, blank=True)
@@ -32,8 +33,8 @@ class Announce(models.Model):
 
 class Solicitation(models.Model):
     announce = models.ForeignKey(Announce, on_delete=models.CASCADE)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    influenceur = models.ForeignKey(Influenceur, on_delete=models.CASCADE)
     date_solicitation = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.user.email) + ' : ' + str(self.announce.titre)
+        return str(self.influenceur.user.email) + ' : ' + str(self.announce.titre)

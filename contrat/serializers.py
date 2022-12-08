@@ -13,4 +13,9 @@ class ContratSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
-        pass
+        return Contrat.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.__dict__.update(**validated_data)
+        instance.save()
+        return instance

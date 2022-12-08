@@ -11,7 +11,7 @@ from .models import (
     Announce,
     Solicitation
 )
-from core.models import Entreprise, CustomUser
+from core.models import Entreprise, Influenceur
 from .serializers import (
     AnnounceSerializer,
     AnnounceDetailSerializer
@@ -111,12 +111,21 @@ class AnnounceViewSet(viewsets.ModelViewSet):
         instance.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @action(detail=True, methods=['GET'], name='solicit announce')
+    @action(detail=True, methods=['POST'], name='solicit announce')
     def solicited(self, request, pk=None):
         announce = self.get_object()
-        user = request.user
+        id_influenceur = request.data['influenceur']
         try:
-            solicitation = Solicitation.objects.get(announce=announce, user=user)
+            influenceur = Influenceur.objects.get(pk=int(id_influenceur))
+        except ObjectDoesNotExist:
+            result = {
+                "status": status.HTTP_409_CONFLICT,
+                "message": "Cet influenceur n'existe pas"
+            }
+            return Response(result)
+
+        try:
+            solicitation = Solicitation.objects.get(announce=announce, influenceur=influenceur)
         except ObjectDoesNotExist:
             solicitation = None
         if solicitation is not None:
@@ -125,7 +134,7 @@ class AnnounceViewSet(viewsets.ModelViewSet):
                 "message": "Vous avez déja solliciter cette annonce"
             }
             return Response(result)
-        Solicitation.objects.create(announce=announce, user=user)
+        Solicitation.objects.create(announce=announce, influenceur=influenceur)
         result = {
             "status": status.HTTP_200_OK,
             "message": "solicitation enregistrée avec succès"

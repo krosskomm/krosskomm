@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from utils.manager import CustomUserManager
 
+
 # Create your models here.
 
 
@@ -88,7 +89,7 @@ class Entreprise(Profil):
     ville = models.CharField(max_length=200, null=True)
 
     def __str__(self):
-        return str(self.pk) +' '+ str(self.denomination_sociale)
+        return str(self.pk) + ' ' + str(self.denomination_sociale)
 
 
 class TypeInfluenceur(models.Model):
@@ -130,9 +131,21 @@ class Influenceur(Profil):
     type_influenceur = models.ManyToManyField(TypeInfluenceur)
     reputation = models.ForeignKey(Reputation, on_delete=models.DO_NOTHING, null=True, blank=True)
     reseaux_sociaux = models.ManyToManyField(Reseaux, through="ReseauxSociaux", related_name="reseauxsociaux")
+    sollicitations = models.ManyToManyField(Entreprise, through="SimpleSolicitation", related_name="sollicitations")
 
     def __str__(self):
-        return str(self.pk) +' '+ str(self.user.email)
+        return str(self.pk) + ' ' + str(self.user.email)
+
+
+class SimpleSolicitation(models.Model):
+    influenceur = models.ForeignKey(Influenceur, on_delete=models.CASCADE)
+    entreprise = models.ForeignKey(Entreprise, on_delete=models.CASCADE)
+    type_sollicitation = models.CharField(max_length=50)
+    date_solicitation = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.influenceur.user.email + ' ' + self.entreprise.user.email
 
 
 class ReseauxSociaux(models.Model):

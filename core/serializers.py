@@ -292,9 +292,16 @@ class UserInfoSerializer(serializers.ModelSerializer):
 
 
 class InfluenceurSerializer(serializers.ModelSerializer):
-
     user = UserSerializer(read_only=True, many=False)
 
     class Meta:
         model = Influenceur
+        fields = '__all__'
+
+
+class EntrepriseSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True, many=False)
+
+    class Meta:
+        model = Entreprise
         fields = '__all__'
