@@ -35,6 +35,7 @@ class Solicitation(models.Model):
     announce = models.ForeignKey(Announce, on_delete=models.CASCADE)
     influenceur = models.ForeignKey(Influenceur, on_delete=models.CASCADE)
     date_solicitation = models.DateTimeField(auto_now_add=True)
+    is_favorite = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.influenceur.user.email) + ' : ' + str(self.announce.titre)

@@ -11,7 +11,8 @@ def badge_verification_save(profil, request):
         return result
 
     badge = Badge.objects.create(identity_recto=request.FILES.get('identity_recto'),
-                                 identity_verso=request.FILES.get('identity_verso'))
+                                 identity_verso=request.FILES.get('identity_verso'),
+                                 selfie=request.FILES.get('selfie'))
     profil.badge = badge
     profil.badge_verification = True
     profil.save()

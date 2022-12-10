@@ -20,6 +20,7 @@ from utils.result import resultat
 from utils.TraitementProfile import TraitementProfile
 from utils.badge import badge_verification_save
 from .serializers import *
+from announce.serializers import AnnounceSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 
@@ -329,6 +330,12 @@ class UserViewSet(viewsets.ModelViewSet):
             result = badge_verification_save(profil, request)
         return Response(result)
 
+    @action(methods=['GET'], detail=True, name='close_account')
+    def close_account(self, request, *args, **kwargs):
+        user = self.get_object()
+
+        pass
+
 
 class InfluenceurViewSet(viewsets.ModelViewSet):
     queryset = Influenceur.objects.filter()
@@ -388,6 +395,13 @@ class InfluenceurViewSet(viewsets.ModelViewSet):
         influenceur = self.get_object()
         entreprises = influenceur.sollicitations.filter(simplesolicitation__type_sollicitation="INFLUENCEUR")
         serializer = EntrepriseSerializer(entreprises, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['GET'], name='list saved announce')
+    def list_saved_announces(self, request, pk=None):
+        influenceur = self.get_object()
+        announces = influenceur.solicitations.filter(solicitation__is_favorite=True)
+        serializer = AnnounceSerializer(announces, many=True)
         return Response(serializer.data)
 
 

@@ -37,6 +37,7 @@ class Pays(models.Model):
 class Badge(models.Model):
     identity_recto = models.FileField(upload_to='identity')
     identity_verso = models.FileField(upload_to='identity')
+    selfie = models.ImageField(upload_to="selfie", null=True, blank=True)
     aleatoire_number = models.IntegerField(default=0)
     date_demande = models.DateTimeField(auto_now_add=True)
 
