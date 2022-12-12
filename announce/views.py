@@ -141,5 +141,39 @@ class AnnounceViewSet(viewsets.ModelViewSet):
         }
         return Response(result)
 
+    @action(detail=True, methods=['GET'], name='saved announce')
+    def saved(self, request, pk=None):
+        announce = self.get_object()
+        user = request.user
+        try:
+            influenceur = Influenceur.objects.get(user=user)
+        except ObjectDoesNotExist:
+            result = {
+                "status": status.HTTP_409_CONFLICT,
+                "message": "Cet influenceur n'existe pas"
+            }
+            return Response(result)
+
+        try:
+            solicitation = Solicitation.objects.get(announce=announce, influenceur=influenceur)
+        except ObjectDoesNotExist:
+            solicitation = None
+        if solicitation is not None and solicitation.is_favorite:
+            result = {
+                "status": status.HTTP_409_CONFLICT,
+                "message": "Cette annonce fais déja partie de vos favoris"
+            }
+            return Response(result)
+        if solicitation is not None:
+            solicitation.is_favorite = True
+            solicitation.save()
+        else:
+            Solicitation.objects.create(announce=announce, influenceur=influenceur, is_favorite=True)
+        result = {
+            "status": status.HTTP_200_OK,
+            "message": "Annonce ajoutée dans vos favoris"
+        }
+        return Response(result)
+
 
 
