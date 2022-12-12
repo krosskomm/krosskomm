@@ -15,7 +15,7 @@ from rest_framework.permissions import (
 )
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from contrat.models import Contrat
 from utils.result import resultat
 from utils.TraitementProfile import TraitementProfile
 from utils.badge import badge_verification_save
@@ -395,6 +395,13 @@ class InfluenceurViewSet(viewsets.ModelViewSet):
         influenceur = self.get_object()
         entreprises = influenceur.sollicitations.filter(simplesolicitation__type_sollicitation="INFLUENCEUR")
         serializer = EntrepriseSerializer(entreprises, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['GET'], name='list announces solicited')
+    def list_announce_solicited(self, request, pk=None):
+        influenceur = self.get_object()
+        announces = influenceur.solicitations.filter()
+        serializer = AnnounceSerializer(announces, many=True)
         return Response(serializer.data)
 
     @action(detail=True, methods=['GET'], name='list saved announce')
