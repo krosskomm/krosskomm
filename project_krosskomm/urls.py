@@ -34,7 +34,6 @@ from core.views import (
     ReseauViewSet, ReputationViewSet
 )
 from contrat.views import ContratViewSet
-from messagerie.views import index
 from rest_framework_simplejwt import views as jwt_views
 
 router = routers.DefaultRouter()
@@ -53,7 +52,6 @@ router.register('contracts', ContratViewSet, basename='contrat')
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
-                  path('', index),
                   path('api/v1/', include(router.urls)),
                   path('dj-rest-auth/', include('dj_rest_auth.urls')),
                   path('api/v1/signin/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
