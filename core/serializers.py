@@ -95,7 +95,7 @@ class BadgeSerializer(serializers.ModelSerializer):
 class PaysSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pays
-        fields = ['id', 'nom']
+        fields = ['id', 'nom', 'code']
 
 
 class TypeInfluenceurSerializer(serializers.ModelSerializer):
@@ -136,11 +136,20 @@ class ReputationSerializer(serializers.ModelSerializer):
         fields = ['id', 'designation']
 
 
+class LanguageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Language
+        fields = ['id', 'nom']
+
+
 class InfluenceurProfilSerializer(serializers.ModelSerializer):
     reputation = ReputationSerializer(read_only=True, many=False)
     pays = PaysSerializer(read_only=True, many=True)
     type_influenceur = TypeInfluenceurSerializer(read_only=True, many=True)
     reseaux_sociaux = serializers.SerializerMethodField('get_reseaux')
+    languages = LanguageSerializer(read_only=True, many=True)
+    places = PaysSerializer(read_only=True, many=True)
 
     @staticmethod
     def get_reseaux(influenceur):
@@ -151,7 +160,7 @@ class InfluenceurProfilSerializer(serializers.ModelSerializer):
     class Meta:
         model = Influenceur
         fields = ['id', 'user', 'compte', 'date_naissance', 'sexe', 'pays',
-                  'type_influenceur', 'reseaux_sociaux', 'reputation']
+                  'type_influenceur', 'reseaux_sociaux', 'reputation', 'languages', 'places']
 
     def create(self, validated_data):
         influenceur = Influenceur.objects.create(**validated_data)
@@ -179,7 +188,6 @@ class InfluenceurProfilSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         instance.__dict__.update(**validated_data)
         instance.save()
-        reseaux_sociaux = self.initial_data.get('reseaux_sociaux')
         reputation = self.initial_data.get('reputation', None)
         countries = self.initial_data.get('pays')
         type_influenceurs = self.initial_data.get('type_influenceur')
@@ -201,15 +209,6 @@ class InfluenceurProfilSerializer(serializers.ModelSerializer):
                     type_influenceur = None
                 if type_influenceur is not None:
                     instance.type_influenceur.add(type_influenceur)
-        if len(reseaux_sociaux) > 0:
-            ReseauxSociaux.objects.filter(influenceur=instance).delete()
-            for reseaux in reseaux_sociaux:
-                try:
-                    reseau = Reseaux.objects.get(pk=int(reseaux['reseau']))
-                except Reseaux.DoesNotExist:
-                    reseau = None
-                if reseau is not None:
-                    ReseauxSociaux.objects.create(influenceur=instance, reseau_social=reseau, lien_url=reseaux['lien'])
 
         if reputation is not None:
             try:

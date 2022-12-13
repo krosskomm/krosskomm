@@ -125,6 +125,16 @@ class Reputation(models.Model):
         return self.designation
 
 
+class Language(models.Model):
+    nom = models.CharField(max_length=150, unique=True)
+    description = models.TextField(null=True, blank=True)
+    active = models.BooleanField(default=True)
+    version = models.CharField(max_length=10, null=True, blank=True)
+
+    def __str__(self):
+        return self.nom
+
+
 class Influenceur(Profil):
     nom = models.CharField(max_length=200, null=True, blank=True)
     date_naissance = models.DateField(null=False)
@@ -133,6 +143,8 @@ class Influenceur(Profil):
     reputation = models.ForeignKey(Reputation, on_delete=models.DO_NOTHING, null=True, blank=True)
     reseaux_sociaux = models.ManyToManyField(Reseaux, through="ReseauxSociaux", related_name="reseauxsociaux")
     sollicitations = models.ManyToManyField(Entreprise, through="SimpleSolicitation", related_name="sollicitations")
+    places = models.ManyToManyField(Pays, related_name="places")
+    languages = models.ManyToManyField(Language)
 
     def __str__(self):
         return str(self.pk) + ' ' + str(self.user.email)

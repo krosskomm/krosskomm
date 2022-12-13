@@ -364,6 +364,51 @@ class InfluenceurViewSet(viewsets.ModelViewSet):
         serializer = self.serializer_class(instance)
         return Response(serializer.data)
 
+    @action(detail=True, methods=['PATCH'], name='update social network')
+    def update_social_network(self, request, pk=None):
+        influenceur = self.get_object()
+        reseaux = request.data.get('reseaux')
+        if len(reseaux) > 0:
+            ReseauxSociaux.objects.filter(influenceur=influenceur).delete()
+            for reseau in reseaux:
+                try:
+                    social = Reseaux.objects.get(pk=int(reseau["reseau"]))
+                except ObjectDoesNotExist:
+                    social = None
+                if social is not None:
+                    ReseauxSociaux.objects.create(influenceur=influenceur,
+                                                  reseau_social=social,
+                                                  lien_url=reseau["lien_url"])
+        serializer = InfluenceurProfilSerializer(influenceur)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['PATCH'], name='update languages and place')
+    def update_language_place(self, request, pk=None):
+        influenceur = self.get_object()
+        languages = request.data.get('languages')
+        places = request.data.get('places')
+        if len(languages) > 0:
+            influenceur.languages.clear()
+            for id_language in languages:
+                try:
+                    language = Language.objects.get(pk=int(id_language))
+                except ObjectDoesNotExist:
+                    language = None
+                if language is not None:
+                    influenceur.languages.add(language)
+
+        if len(places) > 0:
+            influenceur.places.clear()
+            for id_country in places:
+                try:
+                    place = Pays.objects.get(code=str(id_country))
+                except ObjectDoesNotExist:
+                    place = None
+                if place is not None:
+                    influenceur.places.add(place)
+        serializer = InfluenceurProfilSerializer(influenceur)
+        return Response(serializer.data)
+
     @action(detail=True, methods=['POST'], name='solicited entreprise')
     def solicited_entreprise(self, request, pk=None):
         influenceur = self.get_object()
