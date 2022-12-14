@@ -160,7 +160,7 @@ class InfluenceurProfilSerializer(serializers.ModelSerializer):
     class Meta:
         model = Influenceur
         fields = ['id', 'user', 'compte', 'date_naissance', 'sexe', 'pays',
-                  'type_influenceur', 'reseaux_sociaux', 'reputation', 'languages', 'places']
+                  'type_influenceur', 'reseaux_sociaux', 'reputation', 'languages', 'places', 'avatar']
 
     def create(self, validated_data):
         influenceur = Influenceur.objects.create(**validated_data)
@@ -230,7 +230,7 @@ class EnterpriseProfileSerializer(serializers.ModelSerializer):
         model = Entreprise
         fields = ['id', 'user', 'compte', 'entite',
                   'denomination_sociale', 'forme_juridique',
-                  'numero_entreprise', 'adresse_siege', 'numero', 'code_postale', 'pays', 'secteur_activite']
+                  'numero_entreprise', 'adresse_siege', 'numero', 'code_postale', 'pays', 'secteur_activite', 'avatar']
 
     def create(self, validated_data):
         entreprise = Entreprise.objects.create(**validated_data)
