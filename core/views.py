@@ -22,6 +22,7 @@ from utils.badge import badge_verification_save
 from .serializers import *
 from announce.serializers import AnnounceSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+import datetime
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -455,6 +456,18 @@ class InfluenceurViewSet(viewsets.ModelViewSet):
         announces = influenceur.solicitations.filter(solicitation__is_favorite=True)
         serializer = AnnounceSerializer(announces, many=True)
         return Response(serializer.data)
+
+    @action(detail=True, methods=['GET'], name='contract number')
+    def contract_number(self, request, pk=None):
+        today = datetime.date.today()
+        influenceur = self.get_object()
+        end_contract = influenceur.contrat_set.filter(date_fin__lt=today).count()
+        in_progress_contract = influenceur.contrat_set.filter(date_fin__gte=today).count()
+        result = {
+            "end_contract": end_contract,
+            "in_progress_contract": in_progress_contract
+        }
+        return Response(result)
 
 
 class EnterpriseViewSet(viewsets.ModelViewSet):
