@@ -31,7 +31,7 @@ from core.views import (
     EnterpriseViewSet, MyTokenObtainPairView,
     ChangePasswordView, ChangeEmailView, PaysViewSet,
     SecteurViewSet, FormeJuridiqueViewSet, TypeInfleunceurViewSet,
-    ReseauViewSet, ReputationViewSet
+    ReseauViewSet, ReputationViewSet, LanguageViewSet
 )
 from contrat.views import ContratViewSet
 from rest_framework_simplejwt import views as jwt_views
@@ -49,6 +49,7 @@ router.register('users', UserViewSet, basename='user')
 router.register('influenceurs', InfluenceurViewSet, basename='influenceur')
 router.register('entreprises', EnterpriseViewSet, basename='entreprise')
 router.register('contracts', ContratViewSet, basename='contrat')
+router.register('languages', LanguageViewSet, basename='languages')
 
 urlpatterns = [
                   path('admin/', admin.site.urls),

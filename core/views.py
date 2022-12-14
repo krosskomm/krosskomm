@@ -334,7 +334,6 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(methods=['GET'], detail=True, name='close_account')
     def close_account(self, request, *args, **kwargs):
         user = self.get_object()
-
         pass
 
 
@@ -529,4 +528,21 @@ class EnterpriseViewSet(viewsets.ModelViewSet):
 
         influenceurs = entreprise.sollicitations.filter(simplesolicitation__type_sollicitation="ENTREPRISE")
         serializer = InfluenceurSerializer(influenceurs, many=True)
+        return Response(serializer.data)
+
+
+class LanguageViewSet(viewsets.ModelViewSet):
+    queryset = Language.objects.filter()
+    serializer_class = LanguageSerializer
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.queryset.filter()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, *args, **kwargs):
+        queryset = CustomUser.objects.filter(is_active=True)
+        language = get_object_or_404(queryset, pk=pk)
+        serializer = self.serializer_class(language)
         return Response(serializer.data)
