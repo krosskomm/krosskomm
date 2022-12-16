@@ -17,6 +17,7 @@ from .serializers import (
     AnnounceDetailSerializer
 )
 from utils.result import resultat
+from core.custom_pagination import StandardResultsSetPagination
 
 
 # Create your views here.
@@ -24,6 +25,7 @@ class AnnounceListAPI(generics.ListAPIView):
     model = Announce
     serializer_class = AnnounceSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):
         queryset = Announce.objects.filter(active=True)
@@ -37,6 +39,7 @@ class RegisteredAnnounceListAPI(generics.ListAPIView):
     model = Announce
     serializer_class = AnnounceSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):
         user = self.request.user
@@ -68,7 +71,7 @@ class AnnounceViewSet(viewsets.ModelViewSet):
     queryset = Announce.objects.filter(active=True)
     serializer_class = AnnounceSerializer
     permission_classes = [IsAuthenticated]
-    pagination_class = PageNumberPagination
+    pagination_class = StandardResultsSetPagination
 
     def list(self, request, *args, **kwargs):
         queryset = self.queryset.filter()
