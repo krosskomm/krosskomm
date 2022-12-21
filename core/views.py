@@ -462,9 +462,11 @@ class InfluenceurViewSet(viewsets.ModelViewSet):
         influenceur = self.get_object()
         end_contract = influenceur.contrat_set.filter(date_fin__lt=today).count()
         in_progress_contract = influenceur.contrat_set.filter(date_fin__gte=today).count()
+        inf_registered = influenceur.solicitations.filter(solicitation__is_favorite=True).count()
         result = {
             "end_contract": end_contract,
-            "in_progress_contract": in_progress_contract
+            "in_progress_contract": in_progress_contract,
+            "registered_number": inf_registered
         }
         return Response(result)
 

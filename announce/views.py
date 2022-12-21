@@ -164,7 +164,7 @@ class AnnounceViewSet(viewsets.ModelViewSet):
         if solicitation is not None and solicitation.is_favorite:
             result = {
                 "status": status.HTTP_409_CONFLICT,
-                "message": "Cette annonce fais déja partie de vos favoris"
+                "message": "Vous avez déjà enregistré cette annonce"
             }
             return Response(result)
         if solicitation is not None:
@@ -174,9 +174,41 @@ class AnnounceViewSet(viewsets.ModelViewSet):
             Solicitation.objects.create(announce=announce, influenceur=influenceur, is_favorite=True)
         result = {
             "status": status.HTTP_200_OK,
-            "message": "Annonce ajoutée dans vos favoris"
+            "message": "Annonce enregistrée"
         }
         return Response(result)
+
+    @action(detail=True, methods=['GET'], name='saved announce')
+    def unsaved(self, request, pk=None):
+        announce = self.get_object()
+        user = request.user
+        try:
+            influenceur = Influenceur.objects.get(user=user)
+        except ObjectDoesNotExist:
+            result = {
+                "status": status.HTTP_409_CONFLICT,
+                "message": "Cet influenceur n'existe pas"
+            }
+            return Response(result)
+
+        try:
+            solicitation = Solicitation.objects.get(announce=announce, influenceur=influenceur)
+        except ObjectDoesNotExist:
+            solicitation = None
+        if solicitation is not None and solicitation.is_favorite:
+            solicitation.is_favorite = False
+            solicitation.save()
+            result = {
+                "status": status.HTTP_200_OK,
+                "message": "Enregistrement de l'annonce retiré"
+            }
+            return Response(result)
+        else:
+            result = {
+                "status": status.HTTP_409_CONFLICT,
+                "message": "Annonce non enregistrée"
+            }
+            return Response(result)
 
 
 
